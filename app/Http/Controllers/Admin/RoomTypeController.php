@@ -13,7 +13,7 @@ class RoomTypeController extends Controller
      */
     public function index()
     {
-        $roomtypes = \App\Models\RoomType::all();
+        $roomtypes = RoomType::all();
 
         return view('admin.roomtypes.index', compact('roomtypes'));
     }
@@ -55,15 +55,25 @@ class RoomTypeController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $roomtype = RoomType::findOrFail($id);
+        return view('admin.roomtypes.edit', compact('roomtype'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $roomtype = RoomType::findOrFail($id);
+        $roomtype->update([
+            'name' => $request->name,
+        ]);
+
+        return redirect()->route('admin.roomtypes.index')->with('success', 'Room type updated successfully.');
     }
 
     /**

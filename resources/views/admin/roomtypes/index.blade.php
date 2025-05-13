@@ -19,7 +19,10 @@
 
 <ul>
     @foreach($roomtypes as $type)
-        <li>{{ $type->id }} – {{ $type->name }}</li>
+        <li>
+            {{ $type->id }} – {{ $type->name }}
+            <a href="{{ route('admin.roomtypes.edit', $type->id) }}">✏️ Edit</a>
+        </li>
     @endforeach
 </ul>
 
