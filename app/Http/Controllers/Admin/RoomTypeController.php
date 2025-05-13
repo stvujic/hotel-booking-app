@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\RoomType;
 use Illuminate\Http\Request;
 
 class RoomTypeController extends Controller
@@ -22,7 +23,7 @@ class RoomTypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.roomtypes.create');
     }
 
     /**
@@ -30,7 +31,15 @@ class RoomTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        RoomType::create([
+            'name'=>$request->name,
+        ]);
+
+        return redirect()->route('admin.roomtypes.index')->with('success', 'Room type added successfully.');
     }
 
     /**
