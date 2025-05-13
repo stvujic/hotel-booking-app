@@ -22,6 +22,12 @@
         <li>
             {{ $type->id }} – {{ $type->name }}
             <a href="{{ route('admin.roomtypes.edit', $type->id) }}">✏️ Edit</a>
+
+            <form action="{{ route('admin.roomtypes.destroy', $type->id) }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" onclick="return confirm('Are you sure?')">🗑️ Delete</button>
+            </form>
         </li>
     @endforeach
 </ul>
