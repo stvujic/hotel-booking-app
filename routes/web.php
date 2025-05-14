@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\RoomTypeController;
@@ -31,6 +32,7 @@ Route::middleware('auth')->group(function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('roomtypes', RoomTypeController::class);
     Route::resource('rooms', RoomController::class);
+    Route::resource('users', UserController::class);
 });
 
 require __DIR__.'/auth.php';
