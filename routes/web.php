@@ -7,6 +7,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\RoomTypeController;
+use App\Http\Middleware\AdminMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,12 +30,15 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/rooms', [PageController::class, 'list_rooms'])->name('rooms.index');
+Route::post('/rooms', [PageController::class, 'search'])->name('rooms.search');
+Route::get('/rooms/reserve/{id}', [PageController::class, 'showReservationForm'])->name('rooms.reserve');
+Route::post('/rooms/reserve/{id}', [PageController::class, 'storeReservation'])->name('rooms.reserve.store');
 
 
 /************************************
                Admin
  ************************************/
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware([AdminMiddleware::class])->group(function () {
     Route::get('/', function () {return view ('admin.dashboard');})->name('dashboard');
 
     Route::resource('roomtypes', RoomTypeController::class);
