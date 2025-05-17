@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Reservation</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<div class="container mt-4">
-    <h1>Edit Reservation #{{ $order->id }}</h1>
+@extends('layouts.admin')
+
+@section('content')
+    <h1 class="mb-4">Edit Reservation #{{ $order->id }}</h1>
 
     <form action="{{ route('admin.orders.update', $order->id) }}" method="POST">
         @csrf
@@ -29,7 +23,7 @@
             <select name="room_id" id="room_id" class="form-control" required>
                 @foreach($rooms as $room)
                     <option value="{{ $room->id }}" {{ $order->room_id == $room->id ? 'selected' : '' }}>
-                        {{ $room->name }}
+                        {{ $room->roomtype->name ?? 'N/A' }} - {{ $room->no_beds }} beds - €{{ $room->price }}
                     </option>
                 @endforeach
             </select>
@@ -50,6 +44,4 @@
         <button type="submit" class="btn btn-success">Update Reservation</button>
         <a href="{{ route('admin.orders.index') }}" class="btn btn-secondary">Back</a>
     </form>
-</div>
-</body>
-</html>
+@endsection

@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Reservations</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<div class="container mt-4">
+@extends('layouts.admin')
+
+@section('content')
     <h1 class="mb-4">Reservations</h1>
 
     <table class="table table-striped">
@@ -26,7 +20,11 @@
             <tr>
                 <td>{{ $order->id }}</td>
                 <td>{{ $order->user->name ?? 'N/A' }} {{ $order->user->last_name ?? '' }}</td>
-                <td>{{ $order->room->name ?? 'N/A' }}</td>
+                <td>
+                    {{ $order->room->roomtype->name ?? 'N/A' }}<br>
+                    {{ $order->room->no_beds ?? '-' }} beds<br>
+                    €{{ $order->room->price ?? '-' }}
+                </td>
                 <td>{{ optional($order->check_in)->format('d.m.Y') }}</td>
                 <td>{{ optional($order->check_out)->format('d.m.Y') }}</td>
                 <td>{{ $order->stayDays }}</td>
@@ -42,6 +40,4 @@
         @endforeach
         </tbody>
     </table>
-</div>
-</body>
-</html>
+@endsection
