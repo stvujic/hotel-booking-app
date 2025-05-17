@@ -1,46 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Room</title>
-</head>
-<body>
-<h1>Add New Room</h1>
+@extends('layouts.admin')
 
-<form method="POST" action="{{ route('admin.rooms.store') }}">
-    @csrf
+@section('content')
+    <h1 class="mb-4">Add New Room</h1>
 
-    <label>Room Type:</label><br>
-    <select name="room_type_id">
-        @foreach($roomtypes as $type)
-            <option value="{{ $type->id }}">{{ $type->name }}</option>
-        @endforeach
-    </select><br><br>
+    <form method="POST" action="{{ route('admin.rooms.store') }}">
+        @csrf
 
-    <label>Number of Beds:</label><br>
-    <input type="number" name="no_beds"><br><br>
+        <div class="mb-3">
+            <label class="form-label">Room Type</label>
+            <select name="room_type_id" class="form-control">
+                @foreach($roomtypes as $type)
+                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                @endforeach
+            </select>
+        </div>
 
-    <label>Total Rooms:</label><br>
-    <input type="number" name="total_room"><br><br>
+        <div class="mb-3">
+            <label class="form-label">Number of Beds</label>
+            <input type="number" name="no_beds" class="form-control">
+        </div>
 
-    <label>Price:</label><br>
-    <input type="number" name="price" step="0.01"><br><br>
+        <div class="mb-3">
+            <label class="form-label">Total Rooms</label>
+            <input type="number" name="total_room" class="form-control">
+        </div>
 
-    <label>Image (just filename for now):</label><br>
-    <input type="text" name="image"><br><br>
+        <div class="mb-3">
+            <label class="form-label">Price (€)</label>
+            <input type="number" name="price" step="0.01" class="form-control">
+        </div>
 
-    <label>Description:</label><br>
-    <textarea name="desc"></textarea><br><br>
+        <div class="mb-3">
+            <label class="form-label">Image (filename)</label>
+            <input type="text" name="image" class="form-control">
+        </div>
 
-    <label>Status:</label><br>
-    <select name="status">
-        <option value="1">Available</option>
-        <option value="0">Not Available</option>
-    </select><br><br>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="desc" class="form-control"></textarea>
+        </div>
 
-    <button type="submit">Save</button>
-</form>
+        <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select name="status" class="form-control">
+                <option value="1">Available</option>
+                <option value="0">Not Available</option>
+            </select>
+        </div>
 
-<a href="{{ route('admin.rooms.index') }}">Back to list</a>
-</body>
-</html>
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="{{ route('admin.rooms.index') }}" class="btn btn-secondary">Back to list</a>
+    </form>
+@endsection

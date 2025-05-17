@@ -1,49 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Room</title>
-</head>
-<body>
-<h1>Edit Room</h1>
+@extends('layouts.admin')
 
-<form method="POST" action="{{ route('admin.rooms.update', $room->id) }}">
-    @csrf
-    @method('PUT')
+@section('content')
+    <h1 class="mb-4">Edit Room</h1>
 
-    <label>Room Type:</label><br>
-    <select name="room_type_id">
-        @foreach($roomtypes as $type)
-            <option value="{{ $type->id }}" {{ $type->id == $room->room_type_id ? 'selected' : '' }}>
-                {{ $type->name }}
-            </option>
-        @endforeach
-    </select><br><br>
+    <form method="POST" action="{{ route('admin.rooms.update', $room->id) }}">
+        @csrf
+        @method('PUT')
 
-    <label>Number of Beds:</label><br>
-    <input type="number" name="no_beds" value="{{ $room->no_beds }}"><br><br>
+        <div class="mb-3">
+            <label class="form-label">Room Type</label>
+            <select name="room_type_id" class="form-control">
+                @foreach($roomtypes as $type)
+                    <option value="{{ $type->id }}" {{ $type->id == $room->room_type_id ? 'selected' : '' }}>
+                        {{ $type->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
-    <label>Total Rooms:</label><br>
-    <input type="number" name="total_room" value="{{ $room->total_room }}"><br><br>
+        <div class="mb-3">
+            <label class="form-label">Number of Beds</label>
+            <input type="number" name="no_beds" value="{{ $room->no_beds }}" class="form-control">
+        </div>
 
-    <label>Price:</label><br>
-    <input type="number" name="price" step="0.01" value="{{ $room->price }}"><br><br>
+        <div class="mb-3">
+            <label class="form-label">Total Rooms</label>
+            <input type="number" name="total_room" value="{{ $room->total_room }}" class="form-control">
+        </div>
 
-    <label>Image:</label><br>
-    <input type="text" name="image" value="{{ $room->image }}"><br><br>
+        <div class="mb-3">
+            <label class="form-label">Price (€)</label>
+            <input type="number" name="price" step="0.01" value="{{ $room->price }}" class="form-control">
+        </div>
 
-    <label>Description:</label><br>
-    <textarea name="desc">{{ $room->desc }}</textarea><br><br>
+        <div class="mb-3">
+            <label class="form-label">Image</label>
+            <input type="text" name="image" value="{{ $room->image }}" class="form-control">
+        </div>
 
-    <label>Status:</label><br>
-    <select name="status">
-        <option value="1" {{ $room->status ? 'selected' : '' }}>Available</option>
-        <option value="0" {{ !$room->status ? 'selected' : '' }}>Not Available</option>
-    </select><br><br>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="desc" class="form-control">{{ $room->desc }}</textarea>
+        </div>
 
-    <button type="submit">Update</button>
-</form>
+        <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select name="status" class="form-control">
+                <option value="1" {{ $room->status ? 'selected' : '' }}>Available</option>
+                <option value="0" {{ !$room->status ? 'selected' : '' }}>Not Available</option>
+            </select>
+        </div>
 
-<a href="{{ route('admin.rooms.index') }}">Back to list</a>
-</body>
-</html>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ route('admin.rooms.index') }}" class="btn btn-secondary">Back to list</a>
+    </form>
+@endsection

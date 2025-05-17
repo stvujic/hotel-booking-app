@@ -1,41 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Rooms</title>
-</head>
-<body>
+@extends('layouts.admin')
 
-@if(session('success'))
-    <div style="color: green; font-weight: bold;">
-        {{ session('success') }}
-    </div>
-@endif
+@section('content')
+    <h1 class="mb-4">Rooms</h1>
 
-<h1>Rooms</h1>
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
-<a href="{{ route('admin.rooms.create') }}">➕ Add New Room</a>
-<br><br>
+    <a href="{{ route('admin.rooms.create') }}" class="btn btn-success mb-3">➕ Add New Room</a>
 
-<ul>
-    @foreach($rooms as $room)
-        <li>
-            ID: {{ $room->id }} |
-            Type: {{ $room->roomtype->name }} |
-            Beds: {{ $room->no_beds }} |
-            Price: ${{ $room->price }} |
-            Status: {{ $room->status ? 'Available' : 'Not available' }}
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Room Type</th>
+            <th>Beds</th>
+            <th>Price (€)</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($rooms as $room)
+            <tr>
+                <td>{{ $room->id }}</td>
+                <td>{{ $room->roomtype->name ?? 'N/A' }}</td>
+                <td>{{ $room->no_beds }}</td>
+                <td>{{ $room->price }}</td>
+                <td>{{ $room->status ? 'Available' : 'Not available' }}</td>
+                <td>
+                    <a href="{{ route('admin.rooms.edit', $room->id) }}" class="btn btn-sm btn-primary">✏️ Edit</a>
 
-            <a href="{{ route('admin.rooms.edit', $room->id) }}">✏️ Edit</a>
-
-            <form action="{{ route('admin.rooms.destroy', $room->id) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" onclick="return confirm('Are you sure you want to delete this room?')">🗑️ Delete</button>
-            </form>
-        </li>
-    @endforeach
-</ul>
-
-</body>
-</html>
+                    <form action="{{ route('admin.rooms.destroy', $room->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this room?')">🗑️ Delete</button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+@endsection
