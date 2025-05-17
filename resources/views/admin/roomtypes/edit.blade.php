@@ -1,22 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Room Type</title>
-</head>
-<body>
-<h1>Edit Room Type</h1>
+@extends('layouts.admin')
 
-<form method="POST" action="{{ route('admin.roomtypes.update', $roomtype->id) }}">
-    @csrf
-    @method('PUT')
+@section('content')
+    <h1 class="mb-4">Edit Room Type</h1>
 
-    <label for="name">Room Type Name:</label><br>
-    <input type="text" id="name" name="name" value="{{ $roomtype->name }}"><br><br>
+    <form method="POST" action="{{ route('admin.roomtypes.update', $roomtype->id) }}">
+        @csrf
+        @method('PUT')
 
-    <button type="submit">Update</button>
-</form>
+        <div class="mb-3">
+            <label for="name" class="form-label">Room Type Name</label>
+            <input type="text" id="name" name="name" value="{{ $roomtype->name }}" class="form-control">
+        </div>
 
-<a href="{{ route('admin.roomtypes.index') }}">Back to list</a>
-</body>
-</html>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ route('admin.roomtypes.index') }}" class="btn btn-secondary">Back to list</a>
+    </form>
+@endsection

@@ -1,36 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Room Types</title>
-</head>
-<body>
+@extends('layouts.admin')
 
-@if(session('success'))
-    <div style="color: green; font-weight: bold;">
-        {{ session('success') }}
-    </div>
-@endif
+@section('content')
+    <h1 class="mb-4">Room Types</h1>
 
-<h1>Room Types</h1>
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
-<a href="{{ route('admin.roomtypes.create') }}">➕ Add New Room Type</a>
-<br><br>
+    <a href="{{ route('admin.roomtypes.create') }}" class="btn btn-success mb-3">➕ Add New Room Type</a>
 
-<ul>
-    @foreach($roomtypes as $type)
-        <li>
-            {{ $type->id }} – {{ $type->name }}
-            <a href="{{ route('admin.roomtypes.edit', $type->id) }}">✏️ Edit</a>
-
-            <form action="{{ route('admin.roomtypes.destroy', $type->id) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" onclick="return confirm('Are you sure?')">🗑️ Delete</button>
-            </form>
-        </li>
-    @endforeach
-</ul>
-
-</body>
-</html>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Room Type</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($roomtypes as $type)
+            <tr>
+                <td>{{ $type->id }}</td>
+                <td>{{ $type->name }}</td>
+                <td>
+                    <a href="{{ route('admin.roomtypes.edit', $type->id) }}" class="btn btn-sm btn-primary">✏️ Edit</a>
+                    <form action="{{ route('admin.roomtypes.destroy', $type->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">🗑️ Delete</button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+@endsection

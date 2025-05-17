@@ -1,21 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Room Type</title>
-</head>
-<body>
-<h1>Add New Room Type</h1>
+@extends('layouts.admin')
 
-<form method="POST" action="{{ route('admin.roomtypes.store') }}">
-    @csrf
+@section('content')
+    <h1 class="mb-4">Add New Room Type</h1>
 
-    <label for="name">Room Type Name:</label><br>
-    <input type="text" id="name" name="name"><br><br>
+    <form method="POST" action="{{ route('admin.roomtypes.store') }}">
+        @csrf
 
-    <button type="submit">Save</button>
-</form>
+        <div class="mb-3">
+            <label for="name" class="form-label">Room Type Name</label>
+            <input type="text" id="name" name="name" class="form-control">
+        </div>
 
-<a href="{{ route('admin.roomtypes.index') }}">Back to list</a>
-</body>
-</html>
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="{{ route('admin.roomtypes.index') }}" class="btn btn-secondary">Back to list</a>
+    </form>
+@endsection
