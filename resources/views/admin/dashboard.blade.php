@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<div class="container mt-5">
+@extends('layouts.admin')
+
+@section('content')
     <h1 class="mb-4">Admin Dashboard</h1>
 
     {{-- Statistic Cards --}}
@@ -60,6 +54,4 @@
             <a href="{{ route('admin.users.index') }}" class="btn btn-outline-dark w-100">Manage Users</a>
         </div>
     </div>
-</div>
-</body>
-</html>
+@endsection
