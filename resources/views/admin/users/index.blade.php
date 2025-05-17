@@ -1,37 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Users</title>
-</head>
-<body>
+@extends('layouts.admin')
 
-@if(session('success'))
-    <div style="color: green; font-weight: bold;">
-        {{ session('success') }}
-    </div>
-@endif
+@section('content')
+    <h1 class="mb-4">Users</h1>
 
-<h1>Users</h1>
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
-<ul>
-    @foreach($users as $user)
-        <li>
-            ID: {{ $user->id }} |
-            Name: {{ $user->name }} {{ $user->last_name }} |
-            Email: {{ $user->email }} |
-            Phone: {{ $user->phone ?? '-' }} |
-            Admin: {{ $user->is_admin ? 'Yes' : 'No' }}
-            <a href="{{ route('admin.users.edit', $user->id) }}">✏️ Edit</a>
-
-            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" onclick="return confirm('Are you sure you want to delete this user?')">🗑️ Delete</button>
-            </form>
-        </li>
-    @endforeach
-</ul>
-
-</body>
-</html>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Admin</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($users as $user)
+            <tr>
+                <td>{{ $user->id }}</td>
+                <td>{{ $user->name }} {{ $user->last_name }}</td>
+                <td>{{ $user->email }}</td>
+                <td>{{ $user->phone ?? '-' }}</td>
+                <td>{{ $user->is_admin ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-primary">✏️ Edit</a>
+                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">🗑️ Delete</button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+@endsection
