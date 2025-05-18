@@ -77,5 +77,15 @@ class PageController extends Controller
         return redirect()->route('rooms.reserve', $id)->with('success', 'Reservation successful!');
     }
 
+    public function userOrders()
+    {
+        $orders = Order::with(['room.roomtype'])
+            ->where('user_id', auth()->id())
+            ->orderByDesc('check_in')
+            ->get();
+
+        return view('pages.orders.index', compact('orders'));
+    }
+
 
 }

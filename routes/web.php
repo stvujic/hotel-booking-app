@@ -27,6 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/orders', [PageController::class, 'userOrders'])->name('orders.index');
+
 });
 
 Route::get('/rooms', [PageController::class, 'list_rooms'])->name('rooms.index');
