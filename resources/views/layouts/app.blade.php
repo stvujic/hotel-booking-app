@@ -18,9 +18,12 @@
                             <a class="nav-link" href="{{ route('admin.dashboard') }}">Admin</a>
                         </li>
                     @endif
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('profile.edit') }}">Profile</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('profile.edit') }}">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('orders.index') }}">My Reservations</a>
+                        </li>
                     <li class="nav-item">
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
