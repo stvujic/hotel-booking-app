@@ -13,8 +13,7 @@
         <table class="table table-bordered table-striped">
             <thead>
             <tr>
-                <th>Room</th>
-                <th>Type</th>
+                <th>Room Info</th>
                 <th>Check-in</th>
                 <th>Check-out</th>
                 <th>Nights</th>
@@ -23,8 +22,10 @@
             <tbody>
             @foreach($orders as $order)
                 <tr>
-                    <td>{{ $order->room->name ?? 'N/A' }}</td>
-                    <td>{{ $order->room->roomtype->name ?? 'N/A' }}</td>
+                    <td>
+                        {{ $order->room->roomtype->name ?? 'N/A' }}
+                        ({{ $order->room->no_beds }} beds)
+                    </td>
                     <td>{{ $order->check_in->format('d.m.Y') }}</td>
                     <td>{{ $order->check_out->format('d.m.Y') }}</td>
                     <td>{{ $order->stayDays }}</td>
