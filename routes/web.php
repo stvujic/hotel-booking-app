@@ -36,7 +36,6 @@ Route::post('/rooms', [PageController::class, 'search'])->name('rooms.search');
 Route::get('/rooms/reserve/{id}', [PageController::class, 'showReservationForm'])->name('rooms.reserve');
 Route::post('/rooms/reserve/{id}', [PageController::class, 'storeReservation'])->name('rooms.reserve.store');
 
-
 /************************************
                Admin
  ************************************/
