@@ -6,6 +6,8 @@ use App\Models\Order;
 use App\Models\Room;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
+use App\Http\Requests\OrderRequest;
+
 
 
 class PageController extends Controller
@@ -45,7 +47,7 @@ class PageController extends Controller
         return view('pages.rooms.reserve', compact('room'));
     }
 
-    public function storeReservation(Request $request, $id)
+    public function storeReservation(OrderRequest $request, $id)
     {
         $request->validate([
             'check_in' => 'required|date|after_or_equal:today',
