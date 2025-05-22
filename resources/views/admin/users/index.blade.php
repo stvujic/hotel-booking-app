@@ -3,10 +3,6 @@
 @section('content')
     <h1 class="mb-4">Users</h1>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
     <table class="table table-bordered table-striped">
         <thead>
         <tr>

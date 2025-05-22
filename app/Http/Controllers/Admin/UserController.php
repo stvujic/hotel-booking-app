@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
+
 
 class UserController extends Controller
 {
@@ -53,25 +55,14 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'last_name' => 'nullable|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'nullable|string|max:255',
-            'is_admin' => 'required|boolean',
-        ]);
+
 
         $user = User::findOrFail($id);
 
-        $user->update([
-            'name' => $request->name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'is_admin' => $request->is_admin,
-        ]);
+        $user->update($request->validated());
+
 
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
