@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\RoomType;
 use Illuminate\Http\Request;
+use App\Http\Requests\RoomTypeRequest;
+
 
 class RoomTypeController extends Controller
 {
@@ -29,15 +31,10 @@ class RoomTypeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RoomTypeRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
 
-        RoomType::create([
-            'name'=>$request->name,
-        ]);
+        RoomType::create($request->validated());
 
         return redirect()->route('admin.roomtypes.index')->with('success', 'Room type added successfully.');
     }
@@ -62,16 +59,11 @@ class RoomTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(RoomTypeRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
 
         $roomtype = RoomType::findOrFail($id);
-        $roomtype->update([
-            'name' => $request->name,
-        ]);
+        $roomtype->update($request->validated());
 
         return redirect()->route('admin.roomtypes.index')->with('success', 'Room type updated successfully.');
     }

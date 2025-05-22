@@ -3,9 +3,6 @@
 @section('content')
     <h1 class="mb-4">Room Types</h1>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
 
     <a href="{{ route('admin.roomtypes.create') }}" class="btn btn-success mb-3">➕ Add New Room Type</a>
 
