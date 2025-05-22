@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Room;
 use App\Models\RoomType;
 use Illuminate\Http\Request;
+use App\Http\Requests\RoomRequest;
+
 
 class RoomController extends Controller
 {
@@ -30,27 +32,9 @@ class RoomController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RoomRequest $request)
     {
-        $request->validate([
-            'room_type_id' => 'required|exists:room_types,id',
-            'no_beds' => 'required|integer|min:1',
-            'total_room' => 'required|integer|min:1',
-            'price' => 'required|numeric|min:0',
-            'image' => 'nullable|string',
-            'desc' => 'required|string',
-            'status' => 'required|boolean',
-        ]);
-
-        Room::create([
-            'room_type_id' => $request->room_type_id,
-            'no_beds' => $request->no_beds,
-            'total_room' => $request->total_room,
-            'price' => $request->price,
-            'image' => $request->image,
-            'desc' => $request->desc,
-            'status' => $request->status,
-        ]);
+        Room::create($request->validated());
 
         return redirect()->route('admin.rooms.index')->with('success', 'Room added successfully.');
     }
@@ -78,28 +62,12 @@ class RoomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(RoomRequest $request, $id)
     {
-        $request->validate([
-            'room_type_id' => 'required|exists:room_types,id',
-            'no_beds' => 'required|integer|min:1',
-            'total_room' => 'required|integer|min:1',
-            'price' => 'required|numeric|min:0',
-            'image' => 'nullable|string',
-            'desc' => 'required|string',
-            'status' => 'required|boolean',
-        ]);
+
 
         $room = Room::findOrFail($id);
-        $room->update([
-            'room_type_id' => $request->room_type_id,
-            'no_beds' => $request->no_beds,
-            'total_room' => $request->total_room,
-            'price' => $request->price,
-            'image' => $request->image,
-            'desc' => $request->desc,
-            'status' => $request->status,
-        ]);
+        $room->update($request->validated());
 
         return redirect()->route('admin.rooms.index')->with('success', 'Room updated successfully.');
     }
