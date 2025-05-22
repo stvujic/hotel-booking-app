@@ -49,10 +49,6 @@ class PageController extends Controller
 
     public function storeReservation(OrderRequest $request, $id)
     {
-        $request->validate([
-            'check_in' => 'required|date|after_or_equal:today',
-            'check_out' => 'required|date|after:check_in',
-        ]);
 
         if (!auth()->check()) {
             return redirect()->route('login')->with('error', 'You must be logged in to make a reservation.');
