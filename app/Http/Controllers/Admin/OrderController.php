@@ -7,6 +7,8 @@ use App\Models\Order;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\AdminOrderRequest;
+
 
 class OrderController extends Controller
 {
@@ -58,17 +60,10 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(AdminOrderRequest $request, $id)
     {
-        $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'room_id' => 'required|exists:rooms,id',
-            'check_in' => 'required|date',
-            'check_out' => 'required|date|after:check_in',
-        ]);
-
         $order = Order::findOrFail($id);
-        $order->update($validated);
+        $order->update($request->validated());
 
         return redirect()->route('admin.orders.index')->with('success', 'Reservation updated successfully.');
     }
