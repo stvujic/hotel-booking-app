@@ -4,10 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Room;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
+
 
 class PageController extends Controller
 {
+    protected $orderService;
+
+    public function __construct(OrderService $orderService)
+    {
+        $this->orderService = $orderService;
+    }
     public function list_rooms()
     {
         $rooms = Room::with('roomType')->get();
@@ -51,31 +59,15 @@ class PageController extends Controller
         $checkIn = $request->input('check_in');
         $checkOut = $request->input('check_out');
 
-        // Provera da li je soba zauzeta u tom periodu
-        $overlap = Order::where('room_id', $id)
-            ->where(function ($query) use ($checkIn, $checkOut) {
-                $query->whereBetween('check_in', [$checkIn, $checkOut])
-                    ->orWhereBetween('check_out', [$checkIn, $checkOut])
-                    ->orWhere(function ($query) use ($checkIn, $checkOut) {
-                        $query->where('check_in', '<=', $checkIn)
-                            ->where('check_out', '>=', $checkOut);
-                    });
-            })
-            ->exists();
-
-        if ($overlap) {
+        if (!$this->orderService->isRoomAvailable($id, $checkIn, $checkOut)) {
             return back()->with('error', 'The room is already reserved during the selected dates.');
         }
 
-        Order::create([
-            'room_id' => $id,
-            'user_id' => auth()->id(),
-            'check_in' => $checkIn,
-            'check_out' => $checkOut,
-        ]);
+        $this->orderService->createReservation($id, $checkIn, $checkOut);
 
         return redirect()->route('rooms.reserve', $id)->with('success', 'Reservation successful!');
     }
+
 
     public function userOrders()
     {
