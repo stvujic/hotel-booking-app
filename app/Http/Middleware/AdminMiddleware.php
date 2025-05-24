@@ -10,10 +10,8 @@ class AdminMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check() || !Auth::user()->is_admin) {
-            abort(403, 'Access denied');
-        }
-
-        return $next($request);
+        return Auth::check() && Auth::user()->is_admin
+            ? $next($request)
+            : abort(403, 'Access denied');
     }
 }
