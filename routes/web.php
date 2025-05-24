@@ -31,12 +31,15 @@ Route::middleware('auth')->group(function () {
 
 });
 
-Route::get('/rooms', [PageController::class, 'list_rooms'])->name('rooms.index');
-Route::post('/rooms', [PageController::class, 'search'])->name('rooms.search');
-Route::get('/rooms/reserve/{id}', [PageController::class, 'showReservationForm'])->name('rooms.reserve');
-Route::post('/rooms/reserve/{id}', [PageController::class, 'storeReservation'])->name('rooms.reserve.store');
+Route::controller(PageController::class)->group(function () {
+    Route::get('/rooms', 'list_rooms')->name('rooms.index');
+    Route::post('/rooms', 'search')->name('rooms.search');
+    Route::get('/rooms/reserve/{id}', 'showReservationForm')->name('rooms.reserve');
+    Route::post('/rooms/reserve/{id}', 'storeReservation')->name('rooms.reserve.store');
+});
 
-/************************************
+
+/********************************
                Admin
  ************************************/
 Route::prefix('admin')->name('admin.')->middleware([AdminMiddleware::class])->group(function () {
