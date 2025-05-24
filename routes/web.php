@@ -23,6 +23,9 @@ Route::get('/', function () {
 //    return view('dashboard');
 //})->middleware(['auth', 'verified'])->name('dashboard');
 
+/********************************
+         Authenticated Users
+ ************************************/
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -30,6 +33,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders', [PageController::class, 'userOrders'])->name('orders.index');
 
 });
+
+/********************************
+       Room Listing & Reservation
+ ************************************/
 
 Route::controller(PageController::class)->group(function () {
     Route::get('/rooms', 'list_rooms')->name('rooms.index');
