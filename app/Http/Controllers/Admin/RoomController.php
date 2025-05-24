@@ -6,15 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Room;
 use App\Models\RoomType;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\RoomRequest;
-
 
 class RoomController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $rooms = Room::with('roomtype')->get();
         return view('admin.rooms.index', compact('rooms'));
@@ -23,7 +24,7 @@ class RoomController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         $roomtypes = RoomType::all();
         return view('admin.rooms.create', compact('roomtypes'));
@@ -32,13 +33,12 @@ class RoomController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RoomRequest $request)
+    public function store(RoomRequest $request): RedirectResponse
     {
         Room::create($request->validated());
 
         return redirect()->route('admin.rooms.index')->with('success', 'Room added successfully.');
     }
-
 
     /**
      * Display the specified resource.
@@ -51,7 +51,7 @@ class RoomController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(int $id)
+    public function edit(int $id): View
     {
         $room = Room::findOrFail($id);
         $roomtypes = RoomType::all();
@@ -62,10 +62,8 @@ class RoomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(RoomRequest $request, $id)
+    public function update(RoomRequest $request, int $id): RedirectResponse
     {
-
-
         $room = Room::findOrFail($id);
         $room->update($request->validated());
 
@@ -75,7 +73,7 @@ class RoomController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id)
+    public function destroy(int $id): RedirectResponse
     {
         $room = Room::findOrFail($id);
         $room->delete();

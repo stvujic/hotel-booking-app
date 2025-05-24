@@ -7,15 +7,16 @@ use App\Models\Order;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\AdminOrderRequest;
-
 
 class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $orders = Order::with(['user', 'room.roomtype'])->get();
         return view('admin.orders.index', compact('orders'));
@@ -48,7 +49,7 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(int $id)
+    public function edit(int $id): View
     {
         $order = Order::findOrFail($id);
         $users = User::where('is_admin', false)->get();
@@ -60,7 +61,7 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(AdminOrderRequest $request, $id)
+    public function update(AdminOrderRequest $request, int $id): RedirectResponse
     {
         $order = Order::findOrFail($id);
         $order->update($request->validated());
@@ -71,7 +72,7 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
         $order = Order::findOrFail($id);
         $order->delete();
